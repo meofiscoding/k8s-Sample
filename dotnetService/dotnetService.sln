@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnetService", "dotnetService.csproj", "{117196AE-AD25-4B9E-B740-034EBFFC48BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{117196AE-AD25-4B9E-B740-034EBFFC48BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{117196AE-AD25-4B9E-B740-034EBFFC48BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{117196AE-AD25-4B9E-B740-034EBFFC48BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{117196AE-AD25-4B9E-B740-034EBFFC48BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF11DFCD-273B-47F2-B42E-4D81361B8104}
+	EndGlobalSection
+EndGlobal
