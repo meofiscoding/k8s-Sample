@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.Dto.OrderPlacementRequest;
 import jakarta.ws.rs.core.MediaType;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -25,10 +24,10 @@ public class PaymentController {
    
     // TODO: Retrieve data from Redis database
 
-    @PostMapping("/payment")
-    public ResponseEntity<String> processOrder(@RequestBody OrderPlacementRequest order) {
-        // TODO: send data to RabbitMQ so .net microservice can read it
-        rabbitTemplate.convertAndSend("", "payment-queue", order);
-        return ResponseEntity.ok("Order placed successfully");
+    // Sending message to queue
+    @PostMapping("/notify")
+    public ResponseEntity<String> notify(@RequestBody String message) {
+        rabbitTemplate.convertAndSend("x.default-registration", "send-email", message);
+        return ResponseEntity.ok("Message %s sent to queue sms and email successfully".formatted(message));
     }
 }

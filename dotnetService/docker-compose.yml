@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  redis:
+    image: redis:lastest
+    ports:
+      - "6379:6379"
+
+  dotnetservice:
+    image: ${DOCKER_REGISTRY-}dotnetservice
+    build:
+      context: .
+      dockerfile: ./Dockerfile

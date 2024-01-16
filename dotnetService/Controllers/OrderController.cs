@@ -13,12 +13,12 @@ namespace dotnetService.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IDistributedCache _distributedCache;
-        private readonly IMessageProducer _messagePublisher;
+        private readonly RabbitMQService _rabbitMQService;
 
-        public OrderController(IDistributedCache distributedCache, IMessageProducer messagePublisher)
+        public OrderController(IDistributedCache distributedCache, RabbitMQService rabbitMQService)
         {
             _distributedCache = distributedCache;
-            _messagePublisher = messagePublisher;
+            _rabbitMQService = rabbitMQService;
         }
 
         [HttpGet("{userName}", Name = "GetBasket")]
@@ -61,7 +61,7 @@ namespace dotnetService.Controllers
         public async Task<IActionResult> Checkout([FromBody] ShoppingCart basketCheckout)
         {
             // Publish order-created message
-            _messagePublisher.SendMessage(basketCheckout);
+            _rabbitMQService.PublishMessage(basketCheckout, RabbitMQService.CHECK_OUT_QUEUE);
             // remove basket
             await _distributedCache.RemoveAsync(basketCheckout.UserName);
             return Ok($"Basket of user {basketCheckout.UserName} checkout successfully!!");
