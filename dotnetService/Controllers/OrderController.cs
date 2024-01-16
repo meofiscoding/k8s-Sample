@@ -61,7 +61,7 @@ namespace dotnetService.Controllers
         public async Task<IActionResult> Checkout([FromBody] ShoppingCart basketCheckout)
         {
             // Publish order-created message
-            _rabbitMQService.PublishMessage(basketCheckout, RabbitMQService.CHECK_OUT_QUEUE);
+            _rabbitMQService.PublishMessage(basketCheckout, RabbitMQService.CHECKOUT_ROUTE);
             // remove basket
             await _distributedCache.RemoveAsync(basketCheckout.UserName);
             return Ok($"Basket of user {basketCheckout.UserName} checkout successfully!!");

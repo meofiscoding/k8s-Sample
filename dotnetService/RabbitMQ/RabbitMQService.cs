@@ -68,7 +68,7 @@ namespace dotnetService.RabbitMQ
         // Documents
         // Send The Message
         // https://rabbitmq.github.io/rabbitmq-dotnet-client/api/RabbitMQ.Client.IModel.html
-        public void PublishMessage<T>(T message, string queueName)
+        public void PublishMessage<T>(T message, string routingKey)
         {
             string messageStr = JsonConvert.SerializeObject(message);
             byte[] messageBytes = Encoding.UTF8.GetBytes(messageStr);
@@ -76,7 +76,7 @@ namespace dotnetService.RabbitMQ
             var properties = GetDefaultProperties();
             MsgChannel.BasicPublish(
                 DEFAULT_EXCHANGE_NAME,
-                queueName,
+                routingKey,
                 properties,
                 messageBytes
             );
