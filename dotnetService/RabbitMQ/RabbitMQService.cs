@@ -28,14 +28,17 @@ namespace dotnetService.RabbitMQ
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
             var config = builder.Build();
 
-            var username = config.GetSection("RabbitMQ:Username").Value;
-            var password = config.GetSection("RabbitMQ:Password").Value;
-            var hostname = config.GetSection("RabbitMQ:Hostname").Value;
+            var username = config["RabbitMQ:Username"];
+            var password = config["RabbitMQ:Password"];
+            var hostname = config["RabbitMQ:Hostname"];
 
-            var isPortValid = int.TryParse(config.GetSection("RabbitMQ:Port").Value, out var port);
+            var isPortValid = int.TryParse(config["RabbitMQ:Port"], out var port);
+
             if (username == null || password == null ||
                 hostname == null || !isPortValid)
             {
@@ -44,12 +47,20 @@ namespace dotnetService.RabbitMQ
 
             var connectConfig = new ConnectionFactory
             {
+                Uri = new Uri("amqp://guest:guest@rabbitmq:5672")
                 //UserName = username,
                 //Password = password,
-                HostName = hostname,
+                //HostName = hostname,
                 //Port = port,
-                DispatchConsumersAsync = true
+                //DispatchConsumersAsync = true,
+                //HostName = "rabbitmq"
+                //UserName = ConnectionFactory.DefaultUser,
+                //Password = ConnectionFactory.DefaultPass,
+                //Port = AmqpTcpEndpoint.UseDefaultPort
             };
+
+            Console.WriteLine($"RabbitMQ:Host: {connectConfig.HostName}");
+
 
             // Using multiple endpoints if has many nodes (primary, secondary, ...)
             //var endpoints = new List<AmqpTcpEndpoint> {

@@ -1,8 +1,15 @@
 version: '3.4'
 
 services:
+  redis:
+    image: redis
+  
+  rabbitmq:
+    image: rabbitmq:management
+
   dotnetservice:
     image: ${DOCKER_REGISTRY-}dotnetservice
     build:
-      context: .
+      context: ./dotnetService
       dockerfile: ./Dockerfile
+

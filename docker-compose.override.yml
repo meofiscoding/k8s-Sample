@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  redis:
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  dotnetservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - RabbitMQ__Username = guest
+      - RabbitMQ__Password = guest
+      - RabbitMQ__Host = rabbitmq
+      - RabbitMQ__Port = 5672
+    depends_on:
+      - rabbitmq
+      - redis
+    ports:
+      - "8000:80"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
