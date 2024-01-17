@@ -47,11 +47,12 @@ namespace dotnetService.RabbitMQ
 
             var connectConfig = new ConnectionFactory
             {
-                Uri = new Uri("amqp://guest:guest@rabbitmq:5672")
-                //UserName = username,
-                //Password = password,
-                //HostName = hostname,
-                //Port = port,
+                // Uri = new Uri("amqp://admin:password@192.168.0.3:5672")
+                UserName = "admin",
+                Password = "password",
+                HostName = "192.168.0.3",
+                Port = 5672, 
+                //VirtualHost = "/"
                 //DispatchConsumersAsync = true,
                 //HostName = "rabbitmq"
                 //UserName = ConnectionFactory.DefaultUser,
@@ -60,6 +61,9 @@ namespace dotnetService.RabbitMQ
             };
 
             Console.WriteLine($"RabbitMQ:Host: {connectConfig.HostName}");
+            Console.WriteLine($"RabbitMQ:Host: {connectConfig.UserName}");
+            Console.WriteLine($"RabbitMQ:Host: {connectConfig.Password}");
+            Console.WriteLine($"RabbitMQ:Host: {connectConfig.Port}");
 
 
             // Using multiple endpoints if has many nodes (primary, secondary, ...)

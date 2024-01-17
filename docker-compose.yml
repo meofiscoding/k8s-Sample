@@ -10,6 +10,6 @@ services:
   dotnetservice:
     image: ${DOCKER_REGISTRY-}dotnetservice
     build:
-      context: ./dotnetService
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: dotnetService/Dockerfile
 

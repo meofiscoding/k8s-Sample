@@ -4,6 +4,9 @@ services:
   rabbitmq:
     container_name: rabbitmq
     restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "password"
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -15,13 +18,14 @@ services:
       - "6379:6379"
 
   dotnetservice:
+    container_name: dotnetservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - RabbitMQ__Username = guest
-      - RabbitMQ__Password = guest
-      - RabbitMQ__Host = rabbitmq
-      - RabbitMQ__Port = 5672
+      - ASPNETCORE_URLS=http://+:443;http://+:80
+      # - RabbitMQ__Username = tra2024
+      # - RabbitMQ__Password = tra2024
+      # - RabbitMQ__Host = rabbitmq
+      # - RabbitMQ__Port = 5672
     depends_on:
       - rabbitmq
       - redis
