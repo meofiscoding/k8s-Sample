@@ -47,17 +47,17 @@ namespace dotnetService.RabbitMQ
 
             var connectConfig = new ConnectionFactory
             {
-                // UserName = "admin",
-                // Password = "password",
-                HostName = "rabbitmq",
-                Port = 5672,
-                //VirtualHost = "/"
-                //DispatchConsumersAsync = true,
-                //HostName = "rabbitmq"
-                //UserName = ConnectionFactory.DefaultUser,
-                //Password = ConnectionFactory.DefaultPass,
+                UserName = username,
+                Password = password,
+                HostName = hostname,
+                Port = port,
+                DispatchConsumersAsync = true,
                 //Port = AmqpTcpEndpoint.UseDefaultPort
             };
+
+            Console.WriteLine("Connecting to RabbitMQ with host " + hostname);
+            Console.WriteLine("Connecting to RabbitMQ with port " + port);
+
 
             // Using multiple endpoints if has many nodes (primary, secondary, ...)
             //var endpoints = new List<AmqpTcpEndpoint> {
@@ -67,7 +67,7 @@ namespace dotnetService.RabbitMQ
             _connection = connectConfig.CreateConnection();
 
             // Setup channel
-            MsgChannel = SetupChannel();
+            MsgChannel = SetupChannel() ?? throw new Exception("Channel can not be set");
 
             // Setup custom exchange
             SetupDefaultExchange();
