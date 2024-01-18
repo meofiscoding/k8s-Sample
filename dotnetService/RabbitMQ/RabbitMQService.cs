@@ -47,11 +47,10 @@ namespace dotnetService.RabbitMQ
 
             var connectConfig = new ConnectionFactory
             {
-                // Uri = new Uri("amqp://admin:password@192.168.0.3:5672")
-                UserName = "admin",
-                Password = "password",
-                HostName = "192.168.0.3",
-                Port = 5672, 
+                // UserName = "admin",
+                // Password = "password",
+                HostName = "rabbitmq",
+                Port = 5672,
                 //VirtualHost = "/"
                 //DispatchConsumersAsync = true,
                 //HostName = "rabbitmq"
@@ -59,12 +58,6 @@ namespace dotnetService.RabbitMQ
                 //Password = ConnectionFactory.DefaultPass,
                 //Port = AmqpTcpEndpoint.UseDefaultPort
             };
-
-            Console.WriteLine($"RabbitMQ:Host: {connectConfig.HostName}");
-            Console.WriteLine($"RabbitMQ:Host: {connectConfig.UserName}");
-            Console.WriteLine($"RabbitMQ:Host: {connectConfig.Password}");
-            Console.WriteLine($"RabbitMQ:Host: {connectConfig.Port}");
-
 
             // Using multiple endpoints if has many nodes (primary, secondary, ...)
             //var endpoints = new List<AmqpTcpEndpoint> {
@@ -126,6 +119,11 @@ namespace dotnetService.RabbitMQ
             properties.ContentType = "application/json";
             properties.DeliveryMode = 2; // Persistant
             return properties;
+        }
+
+        public void DeclareQueue(string queueName)
+        {
+            MsgChannel.QueueDeclare(queueName, false);
         }
     }
 }
