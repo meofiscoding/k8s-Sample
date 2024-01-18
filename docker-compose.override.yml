@@ -4,12 +4,17 @@ services:
   rabbitmq:
     container_name: rabbitmq
     restart: always
-    environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "password"
+    # environment:
+    #   RABBITMQ_DEFAULT_USER: "admin"
+    #   RABBITMQ_DEFAULT_PASS: "password"
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
 
   redis:
     container_name: redis
@@ -19,6 +24,7 @@ services:
 
   dotnetservice:
     container_name: dotnetservice
+    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:443;http://+:80

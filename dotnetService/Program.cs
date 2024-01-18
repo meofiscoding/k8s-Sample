@@ -26,6 +26,9 @@ static void SubscribeToMessageQueue(WebApplication app)
     using var scope = app.Services.CreateAsyncScope();
     var rabbitMQService = scope.ServiceProvider.GetRequiredService<RabbitMQService>();
 
+    // declare queue before listening incase dotnetService start first
+    rabbitMQService.DeclareQueue(RabbitMQService.SEND_EMAIL_QUEUE_NAME);
+
     var emailHandler = new EmailHandler(
        rabbitMQService.MsgChannel
    );
