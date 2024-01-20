@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(value = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-public class PaymentController {
+public class TestController {
     private final RabbitTemplate rabbitTemplate;
 
-    public PaymentController(RabbitTemplate rabbitTemplate) {
+    public TestController(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 

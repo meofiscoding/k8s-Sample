@@ -1,3 +1,5 @@
 FROM openjdk:21
-COPY target/my-application.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+WORKDIR /app
+COPY ./demo/target/demo-0.0.1-SNAPSHOT.jar /app
+EXPOSE 8080
+CMD ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]
