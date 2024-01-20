@@ -10,24 +10,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Redis Configuration
-//builder.Configuration
-//    .SetBasePath(builder.Environment.ContentRootPath)
-//    .AddJsonFile("appsettings.json");
-
-builder.Services.AddStackExchangeRedisCache(action =>
-{
-    var connection = "127.0.0.1:6379"; //the redis connection
-    action.Configuration = connection;
-});
+builder.Services.AddStackExchangeRedisCache(action => action.Configuration = builder.Configuration["RedisURL"]);
 
 static void SubscribeToMessageQueue(WebApplication app)
 {
     using var scope = app.Services.CreateAsyncScope();
     var rabbitMQService = scope.ServiceProvider.GetRequiredService<RabbitMQService>();
-
-    // declare queue before listening incase dotnetService start first
-    rabbitMQService.DeclareQueue(RabbitMQService.SEND_EMAIL_QUEUE_NAME);
 
     var emailHandler = new EmailHandler(
        rabbitMQService.MsgChannel
@@ -35,14 +23,6 @@ static void SubscribeToMessageQueue(WebApplication app)
 
     rabbitMQService.SubscribeToQueue(emailHandler.MQEventHandler, RabbitMQService.SEND_EMAIL_QUEUE_NAME);
 }
-//var consumer = new EventingBasicConsumer(channel);
-//consumer.Received += (model, eventArgs) =>
-//{
-//    var body = eventArgs.Body.ToArray();
-//    var message = Encoding.UTF8.GetString(body);
-
-//    Console.WriteLine(message);
-//};
 
 var app = builder.Build();
 

@@ -1,16 +1,16 @@
 ﻿using System;
 namespace dotnetService.Model
 {
-    public class ShoppingCart
+    public class SampleShoppingCart
     {
         public string UserName { get; set; }
-        public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
+        public List<SampleShoppingCartItem> Items { get; set; } = new List<SampleShoppingCartItem>();
 
-        public ShoppingCart()
+
+        public SampleShoppingCart()
         {
         }
-
-        public ShoppingCart(string userName)
+        public SampleShoppingCart(string userName)
         {
             UserName = userName;
         }

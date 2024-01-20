@@ -6,7 +6,7 @@ namespace dotnetService.Service
 {
     public class CacheService : ICacheService
     {
-        private IDatabase _db;
+        private readonly IDatabase _db;
 
         public CacheService(IConfiguration configuration)
         {
@@ -36,7 +36,7 @@ namespace dotnetService.Service
         public object RemoveData(string key)
         {
             bool _isKeyExist = _db.KeyExists(key);
-            if (_isKeyExist == true)
+            if (_isKeyExist)
             {
                 return _db.KeyDelete(key);
             }

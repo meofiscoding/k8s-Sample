@@ -4,33 +4,44 @@ using dotnetService.RabbitMQ;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using static Pipelines.Sockets.Unofficial.SocketConnection;
 
 namespace dotnetService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class OrderController : ControllerBase
+    public class SampleController : ControllerBase
     {
         private readonly IDistributedCache _distributedCache;
         private readonly RabbitMQService _rabbitMQService;
 
-        public OrderController(IDistributedCache distributedCache, RabbitMQService rabbitMQService)
+        public SampleController(IDistributedCache distributedCache, RabbitMQService rabbitMQService)
         {
             _distributedCache = distributedCache;
             _rabbitMQService = rabbitMQService;
         }
 
+        /// <summary>
+        /// Get basket item from Redis
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+
         [HttpGet("{userName}", Name = "GetBasket")]
-        public async Task<ShoppingCart> GetBasket(string userName)
+        public async Task<SampleShoppingCart> GetBasket(string userName)
         {
             var basket = await _distributedCache.GetStringAsync(userName);
-            return new ShoppingCart() { UserName = userName, Items = JsonSerializer.Deserialize<List<ShoppingCartItem>>(basket) ?? new List<ShoppingCartItem>() };
+            return new SampleShoppingCart() { UserName = userName, Items = JsonSerializer.Deserialize<List<SampleShoppingCartItem>>(basket) ?? new List<SampleShoppingCartItem>() };
         }
 
+        /// <summary>
+        /// Update basket item to Redis
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <returns></returns>
+
         [HttpPost]
-        [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateBasket([FromBody] ShoppingCart basket)
+        [ProducesResponseType(typeof(SampleShoppingCart), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateBasket([FromBody] SampleShoppingCart basket)
         {
             // append basket item to basket of basket.UserName
             var items = await _distributedCache.GetStringAsync(basket.UserName);
@@ -39,7 +50,7 @@ namespace dotnetService.Controllers
                 _distributedCache.SetString(basket.UserName, JsonSerializer.Serialize(basket.Items));
                 return Ok();
             }
-            List<ShoppingCartItem> shoppingCartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(items) ?? new List<ShoppingCartItem>();
+            List<SampleShoppingCartItem> shoppingCartItems = JsonSerializer.Deserialize<List<SampleShoppingCartItem>>(items) ?? new List<SampleShoppingCartItem>();
             foreach (var item in shoppingCartItems)
             {
                 // check if items contain item.ProductId
@@ -50,15 +61,21 @@ namespace dotnetService.Controllers
                 }
                 else
                 {
-                    shoppingCartItems.Append(item);
+                    _ = shoppingCartItems.Append(item);
                 }
             }
             _distributedCache.SetString(basket.UserName, JsonSerializer.Serialize(shoppingCartItems));
             return Ok();
         }
 
+        /// <summary>
+        /// Publish a message to RabbitMQ and remove basket item from Redis
+        /// </summary>
+        /// <param name="basketCheckout"></param>
+        /// <returns></returns>
+
         [HttpPost("checkout")]
-        public async Task<IActionResult> Checkout([FromBody] ShoppingCart basketCheckout)
+        public async Task<IActionResult> Checkout([FromBody] SampleShoppingCart basketCheckout)
         {
             // Publish order-created message
             _rabbitMQService.PublishMessage(basketCheckout, RabbitMQService.CHECKOUT_ROUTE);

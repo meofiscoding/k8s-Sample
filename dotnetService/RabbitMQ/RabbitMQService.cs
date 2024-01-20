@@ -121,10 +121,10 @@ namespace dotnetService.RabbitMQ
             return properties;
         }
 
-        public void DeclareQueue(string queueName)
-        {
-            MsgChannel.QueueDeclare(queueName, false);
-        }
+        // public void DeclareQueue(string queueName)
+        // {
+        //     MsgChannel.QueueDeclare(queueName, false);
+        // }
     }
 }
 
