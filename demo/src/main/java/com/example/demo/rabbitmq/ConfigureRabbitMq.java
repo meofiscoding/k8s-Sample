@@ -35,10 +35,10 @@ public class ConfigureRabbitMq {
                                 " " + rabbitmqUsername
                                 + " " + rabbitmqPassword);
                 CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-                connectionFactory.setHost("rabbitmq");
-                connectionFactory.setPort(5672);
-                connectionFactory.setUsername("admin");
-                connectionFactory.setPassword("password");
+                connectionFactory.setHost(rabbitmqHost);
+                connectionFactory.setPort(rabbitmqPort);
+                connectionFactory.setUsername(rabbitmqUsername);
+                connectionFactory.setPassword(rabbitmqPassword);
                 return connectionFactory;
         }
 
