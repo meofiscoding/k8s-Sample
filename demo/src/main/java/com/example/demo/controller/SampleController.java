@@ -13,16 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(value = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-public class TestController {
+public class SampleController {
     private final RabbitTemplate rabbitTemplate;
 
-    public TestController(RabbitTemplate rabbitTemplate) {
+    public SampleController(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
-
-    // TODO: Add data to Redis database
-   
-    // TODO: Retrieve data from Redis database
 
     // Sending message to queue
     @PostMapping("/notify")
