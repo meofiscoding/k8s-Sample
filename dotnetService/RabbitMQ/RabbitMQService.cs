@@ -52,7 +52,6 @@ namespace dotnetService.RabbitMQ
                 HostName = hostname,
                 Port = port,
                 DispatchConsumersAsync = true,
-                //Port = AmqpTcpEndpoint.UseDefaultPort
             };
 
             Console.WriteLine("Connecting to RabbitMQ with host " + hostname);

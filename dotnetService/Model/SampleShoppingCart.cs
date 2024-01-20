@@ -6,10 +6,10 @@ namespace dotnetService.Model
         public string UserName { get; set; }
         public List<SampleShoppingCartItem> Items { get; set; } = new List<SampleShoppingCartItem>();
 
-
         public SampleShoppingCart()
         {
         }
+        
         public SampleShoppingCart(string userName)
         {
             UserName = userName;
