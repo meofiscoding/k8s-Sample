@@ -16,11 +16,11 @@ services:
       timeout: 15s
       retries: 1
 
-  # redis:
-  #   container_name: redis
-  #   restart: always
-  #   ports:
-  #     - "6379:6379"
+  redis:
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
 
   javaservice:
     container_name: javaservice
@@ -35,22 +35,22 @@ services:
     ports:
       - "8081:8080"
 
-  # dotnetservice:
-  #   container_name: dotnetservice
-  #   restart: on-failure
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #     - ASPNETCORE_URLS=http://+:443;http://+:80
-  #     - RabbitMQ__Username=admin
-  #     - RabbitMQ__Password=password
-  #     - RabbitMQ__Hostname=rabbitmq
-  #     - RabbitMQ__Port=5672
-  #     - RedisURL=redis:6379
-  #   depends_on:
-  #     - rabbitmq
-  #     - redis
-  #   ports:
-  #     - "8000:80"
-  #   volumes:
-  #     - ~/.aspnet/https:/root/.aspnet/https:ro
-  #     - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+  dotnetservice:
+    container_name: dotnetservice
+    restart: on-failure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:443;http://+:80
+      - RabbitMQ__Username=admin
+      - RabbitMQ__Password=password
+      - RabbitMQ__Hostname=rabbitmq
+      - RabbitMQ__Port=5672
+      - RedisURL=redis:6379
+    depends_on:
+      - rabbitmq
+      - redis
+    ports:
+      - "8000:80"
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
