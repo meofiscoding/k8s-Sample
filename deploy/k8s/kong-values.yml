@@ -1,0 +1,20 @@
+#controller:
+#  ingressController:
+#    env:
+#      LOG_LEVEL: trace
+#      dump_config: true
+
+gateway:
+  admin:
+    http:
+      enabled: true
+  proxy:
+    type: NodePort
+    http:
+      enabled: true
+      nodePort: 32001
+    tls:
+      enabled: false
+#  ingressController:
+#    env:
+#      LOG_LEVEL: trace
