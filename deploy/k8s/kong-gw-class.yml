@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: kong-class
+  annotations:
+    konghq.com/gatewayclass-unmanaged: 'true'
+spec:
+  controllerName: konghq.com/kic-gateway-controller
+
+# Note
+# There is no namespace as it is a cluster level resource
+# Annotations define solution specific options and for Kong these start with konghq
+# The konghq.com/gatewayclass-unmanaged annotation is set to ‘true’ (as a string) because Kong is being manually set up rather than automatically through an operator (which is also an option, see https://docs.konghq.com/gateway-operator/latest/)
+# The Ingress Controller is the Kong Ingress Controller (konghq.com/kic-gateway-controller) and is configured in the contollerName field
