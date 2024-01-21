@@ -1,0 +1,38 @@
+# Uncomment when in local k8s
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet-service
+spec:
+  ports:
+    # port on which service will be exposed
+  - port: 8000
+    name: http
+    # target port is port that container will listen on
+    targetPort: 80
+  selector:
+    app: dotnet-service
+# spec:
+#   type: NodePort
+#   selector:
+#     app: dotnet-service
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 80
+#       nodePort: 31000
+
+# Uncomment when in cloud/production env
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name:dotnet-service
+#   # namespace: ingress-nginx
+# spec:
+#   type: ClusterIP
+#   selector:
+#     app:dotnet
+#   ports:
+#     - protocol: TCP
+#       port: 80
+

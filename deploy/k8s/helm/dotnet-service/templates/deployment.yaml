@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-service-deployment
+  # namespace: ingress-nginx
+  labels:
+    app: dotnet-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet-service
+  template:
+    metadata:
+      labels:
+        app: dotnet-service
+    spec:
+      containers:
+        - name: dotnet-service
+          image: 281901/dotnetservice:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            # - name: ASPNETCORE_ENVIRONMENT
+            #   value: Development
+            - name: ASPNETCORE_URLS
+              value: "http://+:443;http://+:80"
+            - name: RabbitMQ__Username
+              value: admin
+            - name: RabbitMQ__Password
+              value: password
+            - name: RabbitMQ__Hostname
+              value: my-rabbitmq
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "0.1"
+            limits:
+              memory: "128Mi"
+              cpu: "0.3"
+
