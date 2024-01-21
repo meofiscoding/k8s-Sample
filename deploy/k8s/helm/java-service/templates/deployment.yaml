@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-service-deployment
+  # namespace: ingress-nginx
+  labels:
+    app: java-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-service
+  template:
+    metadata:
+      labels:
+        app: java-service
+    spec:
+      containers:
+        - name: java-service
+          image: 281901/javaservice:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: SPRING_RABBITMQ_USERNAME
+              value: admin
+            - name: SPRING_RABBITMQ_PASSWORD
+              value: password
+            - name: SPRING_RABBITMQ_HOST
+              value: my-rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
+          
+

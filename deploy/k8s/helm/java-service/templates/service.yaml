@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-service
+spec:
+  ports:
+    # port on which service will be exposed
+  - port: 8081
+    name: http
+    # target port is port that container will listen on
+    targetPort: 80
+  selector:
+    app: java-service
+
