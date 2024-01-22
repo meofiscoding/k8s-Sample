@@ -5,11 +5,11 @@ metadata:
   name: dotnet-service
 spec:
   ports:
-    # port on which service will be exposed
-  - port: 8000
-    name: http
-    # target port is port that container will listen on
-    targetPort: 80
+      # port on which service will be exposed
+    - port: 8000
+      name: http
+      # target port is port that container will listen on
+      targetPort: 80
   selector:
     app: dotnet-service
 # spec:

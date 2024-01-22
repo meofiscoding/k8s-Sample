@@ -24,6 +24,8 @@ spec:
           env:
             # - name: ASPNETCORE_ENVIRONMENT
             #   value: Development
+            - name: RedisURL
+              value: "my-redis-master.default.svc.cluster.local:6379, password=oAYjHn7XFQ"
             - name: ASPNETCORE_URLS
               value: "http://+:443;http://+:80"
             - name: RabbitMQ__Username
@@ -31,7 +33,8 @@ spec:
             - name: RabbitMQ__Password
               value: password
             - name: RabbitMQ__Hostname
-              value: my-rabbitmq
+              # value: my-rabbitmq
+              value: my-rabbitmq.default.svc.cluster.local
           resources:
             requests:
               memory: "64Mi"

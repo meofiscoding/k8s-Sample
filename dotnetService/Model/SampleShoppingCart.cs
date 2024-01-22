@@ -9,7 +9,7 @@ namespace dotnetService.Model
         public SampleShoppingCart()
         {
         }
-        
+
         public SampleShoppingCart(string userName)
         {
             UserName = userName;

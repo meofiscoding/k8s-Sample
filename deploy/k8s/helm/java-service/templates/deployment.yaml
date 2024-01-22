@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: java-service-deployment
-  # namespace: ingress-nginx
   labels:
     app: java-service
 spec:
@@ -20,7 +19,7 @@ spec:
           image: 281901/javaservice:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: SPRING_RABBITMQ_USERNAME
               value: admin

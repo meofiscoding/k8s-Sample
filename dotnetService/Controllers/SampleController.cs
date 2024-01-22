@@ -27,10 +27,17 @@ namespace dotnetService.Controllers
         /// <returns></returns>
 
         [HttpGet("{userName}", Name = "GetBasket")]
-        public async Task<SampleShoppingCart> GetBasket(string userName)
+        public async Task<IActionResult> GetBasket(string userName)
         {
             var basket = await _distributedCache.GetStringAsync(userName);
-            return new SampleShoppingCart() { UserName = userName, Items = JsonSerializer.Deserialize<List<SampleShoppingCartItem>>(basket) ?? new List<SampleShoppingCartItem>() };
+            if (string.IsNullOrEmpty(basket))
+            {
+                return NotFound("Basket is empty");
+            }
+            else
+            {
+                return Ok(new SampleShoppingCart() { UserName = userName, Items = JsonSerializer.Deserialize<List<SampleShoppingCartItem>>(basket) ?? new List<SampleShoppingCartItem>() });
+            }
         }
 
         /// <summary>

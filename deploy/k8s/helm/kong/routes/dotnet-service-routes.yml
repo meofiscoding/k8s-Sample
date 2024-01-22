@@ -1,0 +1,21 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: dotnet-service-route
+  annotations:
+    konghq.com/strip-path: 'true'
+spec:
+  parentRefs:
+  - name: kong-gateway
+    namespace: kong
+  hostnames:
+  - worlds.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /dotnet
+    backendRefs:
+      - name: dotnet-service
+        port: 8000
+        kind: Service

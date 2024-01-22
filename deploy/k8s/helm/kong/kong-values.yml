@@ -9,10 +9,9 @@ gateway:
     http:
       enabled: true
   proxy:
-    type: NodePort
+    type: LoadBalancer
     http:
       enabled: true
-      nodePort: 32001
     tls:
       enabled: false
 #  ingressController:
